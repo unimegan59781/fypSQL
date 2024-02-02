@@ -35,6 +35,45 @@ class Worker {
   }
 }
 
+
+class Availability {
+  final int available_id;
+  final int worker_id; // fk to worker table
+  final String week_day;
+  final DateTime day_start_time;
+  final DateTime day_end_time;
+  final int miles;
+
+  Availability({
+    required this.available_id,
+    required this.worker_id,
+    required this.week_day,
+    required this.day_start_time,
+    required this.day_end_time,
+    required this.miles,
+  });
+
+  Availability.fromMap(Map<String, dynamic> res)
+      : available_id = res["available_id"],
+        worker_id = res["worker_id"],
+        week_day = res["week_day"],
+        day_start_time = DateTime.parse(res["day_start_time"]),
+        day_end_time = DateTime.parse(res["day_end_time"]),
+        miles = res["miles"];
+
+  Map<String, Object?> toMap() {
+    return {
+      'available_id': available_id,
+      'worker_id': worker_id,
+      'week_day': week_day,
+      'day_start_time': day_start_time.toIso8601String(),
+      'day_end_time': day_end_time.toIso8601String(),
+      'miles': miles,
+    };
+  }
+}
+
+
 class Company {
   final int company_id;
   final String company_name;
@@ -64,9 +103,10 @@ class Company {
   }
 }
 
+
 class Jobs {
   final int job_id;
-  final int company_id; 
+  final int company_id; //fk to company table
   final String job_status;
   final String job_day;
   final DateTime job_start_time;
@@ -104,3 +144,41 @@ class Jobs {
     };
   }
 }
+
+class AssignedJobs {
+  final int assign_id;
+  final int job_id; // fk to job table
+  final int company_id; // fk to company table
+  final int worker_id; // fk to worker table
+  final bool worker_complete;
+  final bool company_complete;
+
+  AssignedJobs({
+    required this.assign_id,
+    required this.job_id,
+    required this.company_id,
+    required this.worker_id,
+    required this.worker_complete,
+    required this.company_complete,
+  });
+
+  AssignedJobs.fromMap(Map<String, dynamic> res)
+      : assign_id = res["assign_id"],
+        job_id = res["job_id"],
+        company_id = res["company_id"],
+        worker_id = res["worker_id"],
+        worker_complete = res["worker_complete"],
+        company_complete = res["company_complete"];
+
+  Map<String, Object?> toMap() {
+    return {
+      'assign_id': assign_id,
+      'job_id': job_id,
+      'company_id': company_id,
+      'worker_id': worker_id,
+      'worker_complete': worker_complete,
+      'company_complete': company_complete,
+    };
+  }
+}
+
