@@ -1,0 +1,106 @@
+class Worker {
+  final int worker_id;
+  final String worker_fname;
+  final String worker_sname;
+  final DateTime worker_bday;
+  final String worker_email;
+  final String worker_location;
+
+  Worker({
+    required this.worker_id,
+    required this.worker_fname,
+    required this.worker_sname,
+    required this.worker_bday,
+    required this.worker_email,
+    required this.worker_location,
+  });
+
+  Worker.fromMap(Map<String, dynamic> res)
+      : worker_id = res["worker_id"],
+        worker_fname = res["worker_fname"],
+        worker_sname = res["worker_sname"],
+        worker_bday = DateTime.parse(res["worker_bday"]),
+        worker_email = res["worker_email"],
+        worker_location = res["worker_location"];
+
+  Map<String, Object?> toMap() {
+    return {
+      'worker_id': worker_id,
+      'worker_fname': worker_fname,
+      'worker_sname': worker_sname,
+      'worker_bday': worker_bday.toIso8601String(),
+      'worker_email': worker_email,
+      'worker_location': worker_location,
+    };
+  }
+}
+
+class Company {
+  final int company_id;
+  final String company_name;
+  final String company_email;
+  final String company_location;
+
+  Company({
+    required this.company_id,
+    required this.company_name,
+    required this.company_email,
+    required this.company_location,
+  });
+
+  Company.fromMap(Map<String, dynamic> res)
+      : company_id = res["company_id"],
+        company_name = res["company_name"],
+        company_email = res["company_email"],
+        company_location = res["company_location"];
+
+  Map<String, Object?> toMap() {
+    return {
+      'company_id': company_id,
+      'company_name': company_name,
+      'company_email': company_email,
+      'company_location': company_location,
+    };
+  }
+}
+
+class Jobs {
+  final int job_id;
+  final int company_id; 
+  final String job_status;
+  final String job_day;
+  final DateTime job_start_time;
+  final DateTime job_end_time;
+  final String job_location;
+
+  Jobs({
+    required this.job_id,
+    required this.company_id,
+    required this.job_status,
+    required this.job_day,
+    required this.job_start_time,
+    required this.job_end_time,
+    required this.job_location,
+  });
+
+  Jobs.fromMap(Map<String, dynamic> res)
+      : job_id = res["job_id"],
+        company_id = res["company_id"],
+        job_status = res["job_status"],
+        job_day = res["job_day"],
+        job_start_time = DateTime.parse(res["job_start_time"]),
+        job_end_time = DateTime.parse(res["job_end_time"]),
+        job_location = res["job_location"];
+
+  Map<String, Object?> toMap() {
+    return {
+      'job_id': job_id,
+      'company_id': company_id,
+      'job_status': job_status,
+      'job_day': job_day,
+      'job_start_time': job_start_time.toIso8601String(),
+      'job_end_time': job_end_time.toIso8601String(),
+      'job_location': job_location,
+    };
+  }
+}
