@@ -65,6 +65,15 @@ class _MyHomePageState extends State<MyHomePage> {
     return await rootBundle.loadString('assets/config.json');
   }
 
+  @override
+  void initState() {
+    super.initState();
+    dbHelper = DBHelper();
+    dbHelper.initializeDB().whenComplete(() async {
+      await addDB();
+    });
+  }
+
   Future<void> addDB() async {
     final workerCSV = await rootBundle.loadString("assets/workers_datafile.csv");
     List<List<dynamic>> workerList = const CsvToListConverter().convert(workerCSV);
