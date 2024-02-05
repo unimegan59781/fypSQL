@@ -111,7 +111,7 @@ class Job {
   final int job_id;
   final int company_id; //fk to company table
   final String job_status;
-  final String job_day;
+  final DateTime job_date;
   final DateTime job_start_time;
   final DateTime job_end_time;
   final String job_location;
@@ -120,7 +120,7 @@ class Job {
     required this.job_id,
     required this.company_id,
     required this.job_status,
-    required this.job_day,
+    required this.job_date,
     required this.job_start_time,
     required this.job_end_time,
     required this.job_location,
@@ -130,7 +130,7 @@ class Job {
       : job_id = res["job_id"],
         company_id = res["company_id"],
         job_status = res["job_status"],
-        job_day = res["job_day"],
+        job_date = DateTime.parse(res["job_date"]),
         job_start_time = DateTime.parse(res["job_start_time"]),
         job_end_time = DateTime.parse(res["job_end_time"]),
         job_location = res["job_location"];
@@ -140,7 +140,7 @@ class Job {
       'job_id': job_id,
       'company_id': company_id,
       'job_status': job_status,
-      'job_day': job_day,
+      'job_date': job_date.toIso8601String(),
       'job_start_time': job_start_time.toIso8601String(),
       'job_end_time': job_end_time.toIso8601String(),
       'job_location': job_location,

@@ -55,7 +55,7 @@ class DBHelper {
             job_id INTEGER PRIMARY KEY NOT NULL,
             company_id INTEGER NOT NULL,
             job_status TEXT NOT NULL,
-            job_day TEXT NOT NULL,
+            job_date TEXT NOT NULL,
             job_start_time TEXT NOT NULL,
             job_end_time TEXT NOT NULL,
             job_location TEXT NOT NULL,
