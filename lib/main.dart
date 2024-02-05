@@ -1,4 +1,7 @@
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fyp/dbModels.dart';
 import 'package:fyp/services/DBHelper.dart';
 
 void main() {
@@ -58,6 +61,27 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late DBHelper dbHelper;
 
+  Future<String> loadAsset() async {
+    return await rootBundle.loadString('assets/config.json');
+  }
+
+  Future<void> addDB() async {
+    final rawCSV = await rootBundle.loadString("assets/workers_datafile.csv");
+    List<List<dynamic>> workerList = const CsvToListConverter().convert(rawCSV);
+    List<Worker> workers = [];
+    for (var line in workerList) {
+      Worker newWorker = Worker(
+        worker_id: line[0],
+        worker_fname: line[1],
+        worker_sname: line[3],
+        worker_bday: DateTime(line[4]),
+        worker_email: line[5],
+        worker_location: line[6],
+      );
+      workers.add(newWorker);
+    }
+    await dbHelper.insertWorker(workers);
+  }
 
   int _counter = 0;
 
