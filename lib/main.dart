@@ -1,4 +1,8 @@
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fyp/dbModels.dart';
+import 'package:fyp/services/DBHelper.dart';
 
 void main() {
   runApp(const MyApp());
@@ -55,6 +59,84 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late DBHelper dbHelper;
+
+  Future<String> loadAsset() async {
+    return await rootBundle.loadString('assets/config.json');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    dbHelper = DBHelper();
+    dbHelper.initializeDB().whenComplete(() async {
+      await addDB();
+    });
+  }
+
+  Future<void> addDB() async {
+    final workerCSV = await rootBundle.loadString("assets/workers_datafile.csv");
+    List<List<dynamic>> workerList = const CsvToListConverter().convert(workerCSV);
+    List<Worker> workers = [];
+    for (var line in workerList) {
+      Worker newWorker = Worker(
+        worker_id: line[0],
+        worker_fname: line[1],
+        worker_sname: line[3],
+        worker_bday: DateTime(line[4]),
+        worker_email: line[5],
+        worker_location: line[6],
+      );
+      workers.add(newWorker);
+    }
+    final availCSV = await rootBundle.loadString("assets/avail_datafile.csv");
+    List<List<dynamic>> availList = const CsvToListConverter().convert(availCSV);
+    List<Availability> avail = [];
+    for (var line in availList) {
+      Availability newAvail = Availability(
+        available_id: line[0],
+        worker_id: line[1],
+        week_day: line[2],
+        day_start_time: line[3],
+        day_end_time: line[4],
+        miles: line[5],
+      );
+      avail.add(newAvail);
+    }
+    final companyCSV = await rootBundle.loadString("assets/company_datafile.csv");
+    List<List<dynamic>> companyList = const CsvToListConverter().convert(companyCSV);
+    List<Company> compaines = [];
+    for (var line in companyList) {
+      Company newCompany = Company(
+        company_id: line[0],
+        company_name: line[1],
+        company_email: line[2],
+        company_location: line[3],
+      );
+      compaines.add(newCompany);
+    }
+    final jobCSV = await rootBundle.loadString("assets/job_datafile.csv");
+    List<List<dynamic>> jobList = const CsvToListConverter().convert(jobCSV);
+    List<Job> jobs = [];
+    for (var line in jobList) {
+      Job newJob = Job(
+        job_id: line[0],
+        company_id: line[1],
+        job_status: line[2],
+        job_date: line[3],
+        job_start_time: line[4],
+        job_end_time: line[5],
+        job_location: line[6],
+      );
+      jobs.add(newJob);
+    }
+    await dbHelper.insertWorker(workers);
+    await dbHelper.insertAvailable(avail);
+    await dbHelper.insertCompany(compaines);
+    await dbHelper.insertJob(jobs);
+    
+  }
+
   int _counter = 0;
 
   void _incrementCounter() {
