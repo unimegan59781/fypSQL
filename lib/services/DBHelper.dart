@@ -5,7 +5,9 @@ import 'package:sqflite/sqflite.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 
-class DatabaseHandler {
+import 'package:fyp/dbModels.dart';
+
+class DBHelper {
   Future<Database> initializeDB() async {
     WidgetsFlutterBinding.ensureInitialized();
     String path = await getDatabasesPath();
@@ -49,7 +51,7 @@ class DatabaseHandler {
         );
         database.execute(
           '''
-          CREATE TABLE Jobs(
+          CREATE TABLE Job(
             job_id INTEGER PRIMARY KEY NOT NULL,
             company_id INTEGER NOT NULL,
             job_status TEXT NOT NULL,
@@ -80,4 +82,40 @@ class DatabaseHandler {
       version: 1,
     );
   }
+
+  Future<void> insertWorker(List<Worker> workers) async {
+    final Database db = await initializeDB();
+    for (var worker in workers) {
+      await db.insert('Worker', worker.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    }
+  }
+
+  Future<void> insertAvailable(List<Availability> availabilities) async {
+    final Database db = await initializeDB();
+    for (var worker in availabilities) {
+      await db.insert('Availability', worker.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    }
+  }
+
+  Future<void> insertCompany(List<Company> companies) async {
+    final Database db = await initializeDB();
+    for (var company in companies) {
+      await db.insert('Company', company.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    }
+  }
+
+  Future<void> insertJob(List<Job> jobs) async {
+    final Database db = await initializeDB();
+    for (var job in jobs) {
+      await db.insert('Job', job.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    }
+  }
+
+  Future<void> insertAssignJob(List<AssignedJobs> jobs) async {
+    final Database db = await initializeDB();
+    for (var job in jobs) {
+      await db.insert('AssignedJobs', job.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    }
+  }
+
 }

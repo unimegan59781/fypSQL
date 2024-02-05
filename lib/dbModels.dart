@@ -1,3 +1,6 @@
+
+// ignore_for_file: non_constant_identifier_names
+
 class Worker {
   final int worker_id;
   final String worker_fname;
@@ -104,7 +107,7 @@ class Company {
 }
 
 
-class Jobs {
+class Job {
   final int job_id;
   final int company_id; //fk to company table
   final String job_status;
@@ -113,7 +116,7 @@ class Jobs {
   final DateTime job_end_time;
   final String job_location;
 
-  Jobs({
+  Job({
     required this.job_id,
     required this.company_id,
     required this.job_status,
@@ -123,7 +126,7 @@ class Jobs {
     required this.job_location,
   });
 
-  Jobs.fromMap(Map<String, dynamic> res)
+  Job.fromMap(Map<String, dynamic> res)
       : job_id = res["job_id"],
         company_id = res["company_id"],
         job_status = res["job_status"],

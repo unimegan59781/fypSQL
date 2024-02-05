@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/services/DBHelper.dart';
 
 void main() {
   runApp(const MyApp());
@@ -55,6 +56,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late DBHelper dbHelper;
+
+
   int _counter = 0;
 
   void _incrementCounter() {
